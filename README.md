@@ -7,87 +7,59 @@ Aplicatia gestioneaza un sistem bancar al unei banci, de exemplu interactiunea d
 
 Entitatile (clase pojo) au implementate constructorii, getterii si setterii.
 
-1. Client
-		-idClient
-		-numeClient
-		-cerereClient
-		-dataInrolare
-		-adresa
+1. Account
+2. AccountType
+3. Admin
+4. Beneficiary
+5. Client
+6. Role : Admin sau Client
+7. SavingsAccount
+8. TermAccount
+9. Transaction
+10. User
 
-2. Conturi
-		-dataAlimentare
-		-dataPlata
-		-areAlimentareAutomata
-		-ePachetSalariu
-
-3. Sucursala
-		-id
-		-numeSucursala
-
-4. ExtrasCont
-		-hasAddress
-		-hasMonth
-		-hasCNP
-
-5. Tranzactii
-		-tipTranzactie (interna RO/strainatate)
-		-etranzactieInternaBanca
-		-eComisionata
-6.Carduri
-		-eVisa
-		-eMastercard
-		-dataExpirare
-
-7. Servicii
-		-ora
-		-zi
-		-luna
-		-numeOrdonator
-		-numeConsultant
-
-8. Audit
-		-eFacut
-		-sefAudit
-		
 		
 ###### Services
-
+Mai degraba interfete mai jos
 1. ClientService
-		int getId (Client obj)
-		String getTipClient(Client obj)
-		String getNumeClient (Client obj)
-		String getDataExpirareCard(Client obj)
-		void changeTipClient (Client obj, String tip)
-		void changeNumeClient (Client obj, String nume)
-		void changeDataExpirareCard(Client obj, String dataExpirare)
+		addCustomer(Client customer);
+		updateCustomer(Client customer);
+		deleteCustomer(long customerId);
+		findCustomerById(long customerId);
 		
-2. ConturiService
-		int getId(Conturi obj)
-		String getConturi(Conturi obj)
-		String showConturi(Conturi obj)
-		void changeConturi(Conturi obj, String contnou)
-		public Boolean verificaFonduri(Conturi obj)
+2. AccountService
+		addAccount(Account saving);
+        addSavingsAccount(SavingsAccount saving);
+        addTermAccount(TermAccount term);
+        deleteSavingId(long accountId);
+        deleteTermId(long accountId);
+		getAccountByID(long accountId);
+		deposit(double amount, long accountId);
+        transferMoney(long senderAccountId, long receiverAccountId, double amount, long customerId, String password);
 		
-3.SucursalaService
-		public String showSucursalaInfo(Client obj)
-		public String tipSucursala(Client obj)
+3. AdminService
+		addAdmin(Admin admin);
+		updateAdmin(Admin admin);
+		deleteAdmin(long adminId);
+		findAdminById(long adminId);
+		listAllAdmin();
 		
-4. ExtrasContService
-		private generatedExtrasCont(ExtrasCont obj)
-		private includeCNP(ExtrasCont obj)
+4.BeneficiaryService
+		addBeneficiary(Beneficiary beneficiary);
+		updateBeneficiary(Beneficiary beneficiary);
+		deleteBeneficiary(long beneficiaryId);
+		findBeneficiaryById(long beneficiaryId);
+		listAllBeneficiaries(long accountId);
 
-5. TranzactiiService
-		private ordonaTranzactie(Tranzactii obj)
+5. TransactionService
+		createTransaction(Transaction transaction);
+		viewTransaction(long transactionId);
+		findTransactionById(long transactionId);
+		getAllMyAccTransactions(long accountId);
 		
-6. CarduriService
-		private blocareCard(Carduri obj)
-		private emitereCard(Carduri obj)
-		private alertaExpirareCard(Carduri obj)
-
-7. ServiciiServices
-		private getOrdonator(Servicii obj)
-		private setConsultant(Servicii obj)
-		private getConsultant(Servicii obj)
-
-8. Audit
-		private getSefAudit(Audit obj)
+6. UserService
+		addNewUser(User user);
+		updateUserInfo(User user);
+		
+clasa serviciu UserServiceImpl ce porneste de la interfata
+1. UserServiceImpl

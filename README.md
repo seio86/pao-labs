@@ -1,6 +1,6 @@
 # pao-labs Banking application
 
-updates "etapa 2", with spacing:
+updates "etapa 2":
 
 creating csv files if not already in place
 throws exception if csv files not created
@@ -33,11 +33,9 @@ list of requirements copied for reference below:
 
 
 
-
-
------------------------------------------------------------------------------
-
+--------------------------------------------------------------------------------------------------------------------------------
 Readme de la etapa 1:
+
 Aplicatia gestioneaza un sistem bancar al unei banci, de exemplu interactiunea dintre clienti si banca, folosind produse.
 
 

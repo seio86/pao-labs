@@ -8,10 +8,22 @@ import java.util.List;
 import java.util.Optional;
 
 
-//clasa de serviciu pentru User
-public class UserServiceImpl implements UserService {
 
-    List<String> userArray = new ArrayList<>();
+public class UserServiceImpl implements UserService {
+    private static UserServiceImpl INSTANCE;
+    private List<String> userArray;
+
+    private UserServiceImpl() {
+        userArray = new ArrayList<>();
+    }
+
+    public  UserServiceImpl getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new UserServiceImpl();
+        }
+        return INSTANCE;
+    }
+
 
     @Override
     public Optional<String> addNewUser(User user) {
@@ -22,7 +34,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<String> updateUserInfo(User user) {
-       // userArray.replaceAll(user);   //does not work, gives error for now
         return userArray.stream().findAny();
     }
 

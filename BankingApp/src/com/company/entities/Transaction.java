@@ -1,65 +1,52 @@
 package com.company.entities;
 
-public class Transaction {
+import java.util.List;
 
-    private String transactionType;
+public class Transaction implements FieldsListIt, ConstructorAdaptor<Transaction> {
+
+    private Integer id;
     private Integer fromAccountNumber;
     private Integer toAccountNumber;
     private Integer transactionAmount;
     private Integer authPin;
 
-    public Transaction(String[] messageArray) {
-        this.transactionType = messageArray[0].toLowerCase();
-        this.fromAccountNumber = Integer.valueOf(messageArray[1]);
-        this.toAccountNumber = Integer.valueOf(messageArray[2]);
-        this.transactionAmount = Integer.valueOf(messageArray[3]);
-        this.authPin = Integer.valueOf(messageArray[4]);
-
-    }
-
-    public String getTransactionType() {
-        return transactionType;
-    }
-
-    public void setTransactionType(String transactionType) {
-        this.transactionType = transactionType.toLowerCase();
-    }
-
-    public Integer getFromAccountNumber() {
-        return fromAccountNumber;
-    }
-
-    public void setFromAccountNumber(Integer fromAccountNumber) {
+    public Transaction(Integer id, Integer fromAccountNumber, Integer toAccountNumber,
+                       Integer transactionAmount, Integer authPin) {
+        this.id = id;
         this.fromAccountNumber = fromAccountNumber;
-    }
-
-    public Integer getToAccountNumber() {
-        return toAccountNumber;
-    }
-
-    public void setToAccountNumber(Integer toAccountNumber) {
         this.toAccountNumber = toAccountNumber;
-    }
-
-    public Integer getTransactionAmount() {
-        return transactionAmount;
-    }
-
-    public void setTransactionAmount(Integer transactionAmount) {
         this.transactionAmount = transactionAmount;
-    }
-
-    public Integer getAuthPin() {
-        return authPin;
-    }
-
-    public void setAuthPin(Integer authPin) {
         this.authPin = authPin;
+    }
+
+    public Transaction() {
+    }
+
+    @Override
+    public List<String> csvValues() {
+        return List.of(String.valueOf(id), String.valueOf(fromAccountNumber), String.valueOf(toAccountNumber),
+                String.valueOf(transactionAmount), String.valueOf(authPin));
+    }
+
+    @Override
+    public Transaction allStringConstructor(String... args) {
+        return new Transaction(
+                Integer.parseInt(args[0]),
+                Integer.parseInt(args[1]),
+                Integer.parseInt(args[2]),
+                Integer.parseInt(args[3]),
+                Integer.parseInt(args[4])
+        );
     }
 
     @Override
     public String toString() {
-        return transactionType + "|" + fromAccountNumber + "|" + toAccountNumber + "|" + transactionAmount + "|"
-                + authPin;
+        return "Transaction{" +
+                "id=" + id +
+                ", fromAccountNumber=" + fromAccountNumber +
+                ", toAccountNumber=" + toAccountNumber +
+                ", transactionAmount=" + transactionAmount +
+                ", authPin=" + authPin +
+                '}';
     }
 }

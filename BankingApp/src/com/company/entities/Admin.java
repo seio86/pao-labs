@@ -1,5 +1,7 @@
 package com.company.entities;
 
+import java.util.List;
+
 public class Admin extends User {
     private String adminName;
     private String adminContact;
@@ -29,4 +31,9 @@ public class Admin extends User {
     public void setAdminContact(String adminContact) {
         this.adminContact = adminContact;
     }
+
+    public List<String> csvValues() {
+        return null;
+    }
+
 }

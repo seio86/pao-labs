@@ -4,13 +4,13 @@ import java.util.Scanner;
 
 //o clasa mai de sine statatoare pentru main, cu metode in ea, urmeaza de impartit in entities si service
 
-public class Conturi {
-    int sold;
-    int tranzactiePreced;
-    String numeClient;
-    String idClient;
+public class Accounts_stage1 {
+    private int sold;
+    private int tranzactiePreced;
+    private String numeClient;
+    private String idClient;
 
-    public Conturi(String cname, String cid) {
+    public Accounts_stage1(String cname, String cid) {
         numeClient = cname;
         idClient = cid;
     }

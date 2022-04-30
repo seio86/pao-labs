@@ -1,6 +1,8 @@
 package com.company.entities;
 
-public class User {
+import java.util.List;
+
+public abstract class User {
     private long customerId;
     private String password;
     private Role role;
@@ -40,6 +42,8 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    public abstract List<String> csvValues();
 
     @Override
     public String toString() {

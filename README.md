@@ -1,6 +1,6 @@
 # pao-labs Banking application
 
-updates "etapa 2":
+updates "etapa 2", with spacing:
 
 creating csv files if not already in place
 throws exception if csv files not created

@@ -5,21 +5,20 @@ import com.company.csv.CsvReader;
 import com.company.csv.CsvReaderImpl;
 import com.company.csv.CsvWriter;
 import com.company.csv.CsvWriterImpl;
+import com.company.service.MyLoggerService;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.logging.FileHandler;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 public class Main {
     public static int uid = 0;
-    public static Logger logger;
+//    public static Logger logger;
     private static Scanner scanner;
     public static List<Account> accountsList;
     public static List<Client> clientsList;
     public static List<Transaction> transactionsList;
     public static List<Beneficiary> beneficiariesList;
+    public static MyLoggerService myLogger;
 
 
     public static void main(String[] args) throws IOException {
@@ -38,9 +37,11 @@ public class Main {
 
 
     private static void commandLine() {
+        scanner = new Scanner(System.in);
         while (true) {
             String command = scanner.nextLine();
-            logger.info(command);
+            myLogger.info(command);
+//            logger.info(command);
         }
     }
 
@@ -143,18 +144,19 @@ public class Main {
             CsvReader<Beneficiary> beneficiaryCsvReader = new CsvReaderImpl<>();
             beneficiariesList = beneficiaryCsvReader.readFromCsv(new Beneficiary());
         } catch (RuntimeException e) {
-            logger.severe("Catched RuntimeException: There is NO csv data to read from, please run writeAndPopulateDataToCsv() first! ");
+            myLogger.severe("Catched RuntimeException: There is NO csv data to read from, please run writeAndPopulateDataToCsv() first! ");
             //e.printStackTrace();
         }
     }
 
     private static void initLogger() throws IOException {
-        scanner = new Scanner(System.in);
-        logger = Logger.getLogger(Main.class.getName());
-        FileHandler fh = new FileHandler("MyLogFile.log", true);
-        logger.addHandler(fh);
-        SimpleFormatter formatter = new SimpleFormatter();
-        fh.setFormatter(formatter);
+//        scanner = new Scanner(System.in);
+//        logger = Logger.getLogger(Main.class.getName());
+//        FileHandler fh = new FileHandler("MyLogFile.log", true);
+//        logger.addHandler(fh);
+//        SimpleFormatter formatter = new SimpleFormatter();
+//        fh.setFormatter(formatter);
+        myLogger = new MyLoggerService("MYLOGGER.LOG", true);
     }
 
     private static void stage1() {

@@ -29,7 +29,8 @@ public class Account implements FieldsListIt, ConstructorAdaptor<Account>, Compa
         this.beneficiaries = beneficiaries;
         this.client = client;
         this.transaction = transaction;
-        Main.logger.info("New account with id " + accountId + "  created!");
+//        Main.logger.info("New account with id " + accountId + "  created!");
+        Main.myLogger.info("New account with id " + accountId + "  created!");
     }
 
     @Override
@@ -48,7 +49,7 @@ public class Account implements FieldsListIt, ConstructorAdaptor<Account>, Compa
     private Map<Integer, Transaction> readTransactions(String ids) {
         CsvReader<Transaction> csvReader = new CsvReaderImpl<>();
         List<Transaction> transactions = csvReader.readFromCsv(new Transaction());
-        HashMap<Integer, Transaction> transactionHashMap = new HashMap<>();
+        Map<Integer, Transaction> transactionHashMap = new HashMap<>();
         int i = 0;
         System.out.println("ids = " + ids);
         for (String id : ids.substring(1, ids.length() - 1).split(",")) {
@@ -62,7 +63,7 @@ public class Account implements FieldsListIt, ConstructorAdaptor<Account>, Compa
     private Map<Integer, Client> readClients(String ids) {
         CsvReader<Client> csvReader = new CsvReaderImpl<>();
         List<Client> clients = csvReader.readFromCsv(new Client());
-        HashMap<Integer, Client> clientHashMap = new HashMap<>();
+        Map<Integer, Client> clientHashMap = new HashMap<>();
         int i = 0;
         for (String id : ids.substring(1, ids.length() - 1).split(",")) {
             int key = Integer.parseInt(id.strip());
@@ -74,7 +75,7 @@ public class Account implements FieldsListIt, ConstructorAdaptor<Account>, Compa
     private Map<Integer, Beneficiary> readBeneficiaries(String ids) {
         CsvReader<Beneficiary> csvReader = new CsvReaderImpl<>();
         List<Beneficiary> beneficiaryList = csvReader.readFromCsv(new Beneficiary());
-        HashMap<Integer, Beneficiary> beneficiaryHashMap = new HashMap<>();
+        Map<Integer, Beneficiary> beneficiaryHashMap = new HashMap<>();
         int i = 0;
         for (String id : ids.substring(1, ids.length() - 1).split(",")) {
             int key = Integer.parseInt(id.strip());

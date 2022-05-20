@@ -1,57 +1,66 @@
 package com.company.entities;
 
 
-import java.util.Set;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-public class Client extends User {
-
+public class Client extends User implements FieldsListIt,ConstructorAdaptor<Client> {
+    private int clientId;
     private String clientName;
     private String phoneNo;
     private String emailId;
 
-    private Set<Account> account;
+    public Map<Integer, Account> getAccount() {
+        return account;
+    }
+
+    private Map<Integer, Account> account;
 
     public Client() {
     }
 
-    public Client(String clientName, String phoneNo, String emailId, Set<Account> account) {
+    public Client(int clientId, String clientName, String phoneNo, String emailId) {
         super();
+        this.clientId = clientId;
         this.clientName = clientName;
         this.phoneNo = phoneNo;
         this.emailId = emailId;
+    }
+
+    public void setAccount(Map<Integer, Account> account) {
         this.account = account;
     }
 
-    public String getClientName() {
-        return clientName;
+    public void addAccount(Account account) {
+        if (this.account == null) {
+            this.account = new HashMap<>();
+        }
+        this.account.put(account.getAccountId(), account);
     }
 
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
+    @Override
+    public List<String> csvValues() {
+        return List.of(String.valueOf(clientId), clientName, phoneNo, emailId, account.keySet().toString());
     }
 
-    public String getPhoneNo() {
-        return phoneNo;
+    @Override
+    public Client allStringConstructor(String... args) {
+        return new Client(
+                Integer.parseInt(args[0]),
+                args[1],
+                args[2],
+                args[3]
+        );
     }
 
-    public void setPhoneNo(String phoneNo) {
-        this.phoneNo = phoneNo;
+    @Override
+    public String toString() {
+        return "Client{" +
+                "clientId=" + clientId +
+                ", clientName='" + clientName + '\'' +
+                ", phoneNo='" + phoneNo + '\'' +
+                ", emailId='" + emailId + '\'' +
+                '}';
     }
-
-    public String getEmailId() {
-        return emailId;
-    }
-
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
-    }
-
-    public Set<Account> getAccount() {
-        return account;
-    }
-
-    public void setAccount(Set<Account> account) {
-        this.account = account;
-    }
-
 }

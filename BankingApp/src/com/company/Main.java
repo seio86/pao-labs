@@ -71,9 +71,9 @@ public class Main {
                 transactionRepository,clientRepository, beneficiaryRepository);
 
         accountRepo.insertAccount(testAccount);
-        System.out.println( "am adaugat " + testAccount);
+        System.out.println( "I added " + testAccount);
 
-        System.out.println("am scos " +  accountRepo.getAccountById(1));
+        System.out.println("I took out " +  accountRepo.getAccountById(1));
 
         //    writeAndPopulateDataToCsv();// to comment this line once the CSV files are written and populated
         commandLine();

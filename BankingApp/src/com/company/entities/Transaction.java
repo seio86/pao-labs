@@ -39,6 +39,26 @@ public class Transaction implements FieldsListIt, ConstructorAdaptor<Transaction
         );
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public Integer getFromAccountNumber() {
+        return fromAccountNumber;
+    }
+
+    public Integer getToAccountNumber() {
+        return toAccountNumber;
+    }
+
+    public Integer getTransactionAmount() {
+        return transactionAmount;
+    }
+
+    public Integer getAuthPin() {
+        return authPin;
+    }
+
     @Override
     public String toString() {
         return "Transaction{" +

@@ -48,4 +48,40 @@ public class Beneficiary  implements FieldsListIt, ConstructorAdaptor<Beneficiar
                 ", accountType=" + accountType +
                 '}';
     }
+
+    public long getBeneficiaryId() {
+        return beneficiaryId;
+    }
+
+    public void setBeneficiaryId(long beneficiaryId) {
+        this.beneficiaryId = beneficiaryId;
+    }
+
+    public String getBeneficiaryName() {
+        return beneficiaryName;
+    }
+
+    public void setBeneficiaryName(String beneficiaryName) {
+        this.beneficiaryName = beneficiaryName;
+    }
+
+    public int getBeneficiaryAccNo() {
+        return beneficiaryAccNo;
+    }
+
+    public void setBeneficiaryAccNo(int beneficiaryAccNo) {
+        this.beneficiaryAccNo = beneficiaryAccNo;
+    }
+
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
 }

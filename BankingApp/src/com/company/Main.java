@@ -1,18 +1,26 @@
 package com.company;
 
+import com.company.config.DatabaseConfiguration;
 import com.company.entities.*;
 import com.company.csv.CsvReader;
 import com.company.csv.CsvReaderImpl;
 import com.company.csv.CsvWriter;
 import com.company.csv.CsvWriterImpl;
+import com.company.repository.AccountRepositoryUsingPreparedStatement;
+import com.company.repository.BeneficiaryRepository;
+import com.company.repository.ClientRepository;
+import com.company.repository.TransactionRepository;
 import com.company.service.MyLoggerService;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 
 public class Main {
     public static int uid = 0;
-//    public static Logger logger;
+    //    public static Logger logger;
     private static Scanner scanner;
     public static List<Account> accountsList;
     public static List<Client> clientsList;
@@ -26,7 +34,48 @@ public class Main {
 //        stage1();  //function is deprecated
         readPersistedCollections();
         printCollections();
-    //    writeAndPopulateDataToCsv();// to comment this line once the CSV files are written and populated
+
+        Account testAccount = accountsList.get(0);
+        try {
+            restartTables();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        BeneficiaryRepository beneficiaryRepository = new BeneficiaryRepository();
+        ClientRepository clientRepository = new ClientRepository();
+        TransactionRepository transactionRepository = new TransactionRepository();
+
+        // add 2 beneficiaries to db ( for acc 1)
+        Beneficiary beneficiary1 = testAccount.getBeneficiaries().get(1);
+        beneficiary1.setAccount(testAccount);
+        Beneficiary beneficiary2 = testAccount.getBeneficiaries().get(1);
+        beneficiary2.setAccount(testAccount);
+
+        beneficiaryRepository.insert(beneficiary1);
+        beneficiaryRepository.insert(beneficiary2);
+
+        // add 2 clients to db ( for acc 1)
+        Client client1 = testAccount.getClient().get(1);
+        client1.setAccountNo(testAccount.getAccountId());
+        clientRepository.insert(client1);
+
+        Client client2 = testAccount.getClient().get(2);
+        client2.setAccountNo(testAccount.getAccountId());
+        clientRepository.insert(client2);
+
+        // add 2 trans to db ( for acc 1)
+        transactionRepository.insert(testAccount.getTransaction().get(1));
+        transactionRepository.insert(testAccount.getTransaction().get(2));
+
+        AccountRepositoryUsingPreparedStatement accountRepo = new AccountRepositoryUsingPreparedStatement(
+                transactionRepository,clientRepository, beneficiaryRepository);
+
+        accountRepo.insertAccount(testAccount);
+        System.out.println( "I added " + testAccount);
+
+        System.out.println("I took out " +  accountRepo.getAccountById(1));
+
+        //    writeAndPopulateDataToCsv();// to comment this line once the CSV files are written and populated
         commandLine();
 
     }
@@ -44,12 +93,59 @@ public class Main {
 //            logger.info(command);
         }
     }
+    private static void restartTables() throws SQLException {
+        Connection connection = DatabaseConfiguration.getDatabaseConnection();
+        Statement statement = connection.createStatement();
+        statement.execute("DROP TABLE IF EXISTS `CLIENT`;");
+        statement.execute(
+                "CREATE TABLE `client` (\n" +
+                        "  `id` int(6) UNSIGNED PRIMARY KEY AUTO_INCREMENT,\n" +
+                        "  `name` varchar(20) DEFAULT NULL,\n" +
+                        "  `phone_no` varchar(20) DEFAULT NULL,\n" +
+                        "  `email` varchar(20) DEFAULT NULL,\n" +
+                        "  `account_id` int(11) DEFAULT NULL\n" +
+                        ")"
+        );
 
+        statement.execute("DROP TABLE IF EXISTS `BENEFICIARY`;");
+        statement.execute("" +
+                "CREATE TABLE `beneficiary` (\n" +
+                "  `id` int(6) UNSIGNED PRIMARY KEY AUTO_INCREMENT,\n" +
+                "  `beneficiaryId` int(11) DEFAULT NULL,\n" +
+                "  `beneficiaryName` varchar(20) DEFAULT NULL,\n" +
+                "  `beneficiaryAccNo` int(11) DEFAULT NULL,\n" +
+                "  `accountType` varchar(20) DEFAULT NULL,\n" +
+                "  `account_id` int(11) DEFAULT NULL\n" +
+                ")"
+        );
+
+        statement.execute("DROP TABLE IF EXISTS `ACCOUNT`;");
+        statement.execute("" +
+                "CREATE TABLE `account` (\n" +
+                "  `ID` int(11) PRIMARY KEY AUTO_INCREMENT,\n" +
+                "  `account_id` int(11) NOT NULL,\n" +
+                "  `INTEREST` float DEFAULT NULL,\n" +
+                "  `BALANCE` float DEFAULT NULL,\n" +
+                "  `TYPE` varchar(20) DEFAULT NULL\n" +
+                ")"
+        );
+
+        statement.execute("DROP TABLE IF EXISTS `TRANSACTION` ;");
+        statement.execute("" +
+                "CREATE TABLE `transaction` (\n" +
+                "  `id` int(6) UNSIGNED PRIMARY KEY AUTO_INCREMENT,\n" +
+                "  `from` float DEFAULT NULL,\n" +
+                "  `to` float DEFAULT NULL,\n" +
+                "  `amount` varchar(20) DEFAULT NULL,\n" +
+                "  `pin` varchar(20) DEFAULT NULL\n" +
+                ")"
+        );
+    }
     private static void printCollections() {
         System.out.println("\nACCOUNTS");
         System.out.println("accountsList = " + accountsList);
-         //   accountsList.sort(new Account()); //to be used only after CSV files with data are created
-         //   accountsList.forEach(account -> System.out.println(account + "\n"));
+        //   accountsList.sort(new Account()); //to be used only after CSV files with data are created
+        //   accountsList.forEach(account -> System.out.println(account + "\n"));
         System.out.println("\nCLIENTS");
         System.out.println("clientsList = " + clientsList);
         System.out.println("\nTRANSACTIONS");

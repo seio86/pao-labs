@@ -50,7 +50,7 @@ public class AccountServiceImpl implements AccountService {
     public Transaction transferMoney(Integer senderAccountId, Integer receiverAccountId, Integer amount, Integer customerId, String password) {
         Client client1 = Main.clientsList.stream().filter(client -> client.getCustomerId() == customerId).findFirst().get();
         Transaction transaction = new Transaction(Main.uid++, senderAccountId, receiverAccountId, amount, Integer.parseInt(password));
-        client1.getAccount().get(1).addTransaction(transaction, customerId);
+//        client1.getAccount().addTransaction(transaction, customerId);
         return transaction;
     }
 }

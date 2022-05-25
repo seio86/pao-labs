@@ -6,6 +6,7 @@ import com.company.csv.CsvReaderImpl;
 
 import java.util.*;
 
+
 public class Account implements FieldsListIt, ConstructorAdaptor<Account>, Comparator<Account> {
     private int accountId;
     private double interestRate;
@@ -135,5 +136,29 @@ public class Account implements FieldsListIt, ConstructorAdaptor<Account>, Compa
             return 1;
         }
         return 0;
+    }
+
+    public double getInterestRate() {
+        return interestRate;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public Map<Integer, Transaction> getTransaction() {
+        return transaction;
+    }
+
+    public Map<Integer, Client> getClient() {
+        return client;
+    }
+
+    public Map<Integer, Beneficiary> getBeneficiaries() {
+        return beneficiaries;
     }
 }

@@ -10,12 +10,7 @@ public class Client extends User implements FieldsListIt,ConstructorAdaptor<Clie
     private String clientName;
     private String phoneNo;
     private String emailId;
-
-    public Map<Integer, Account> getAccount() {
-        return account;
-    }
-
-    private Map<Integer, Account> account;
+    private int accountNo;
 
     public Client() {
     }
@@ -28,20 +23,40 @@ public class Client extends User implements FieldsListIt,ConstructorAdaptor<Clie
         this.emailId = emailId;
     }
 
-    public void setAccount(Map<Integer, Account> account) {
-        this.account = account;
+    public Client(int clientId, String clientName,
+                  String phoneNo, String emailId, int accountNo) {
+        super();
+        this.clientId = clientId;
+        this.clientName = clientName;
+        this.phoneNo = phoneNo;
+        this.emailId = emailId;
+        this.accountNo = accountNo;
     }
 
-    public void addAccount(Account account) {
-        if (this.account == null) {
-            this.account = new HashMap<>();
-        }
-        this.account.put(account.getAccountId(), account);
+    public int getClientId() {
+        return clientId;
+    }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public String getPhoneNo() {
+        return phoneNo;
+    }
+
+    public String getEmailId() {
+        return emailId;
+    }
+
+    public int getAccountNo() {
+        return accountNo;
     }
 
     @Override
     public List<String> csvValues() {
-        return List.of(String.valueOf(clientId), clientName, phoneNo, emailId, account.keySet().toString());
+        return List.of(String.valueOf(clientId), clientName, phoneNo, emailId
+                , String.valueOf(accountNo));
     }
 
     @Override
@@ -62,5 +77,13 @@ public class Client extends User implements FieldsListIt,ConstructorAdaptor<Clie
                 ", phoneNo='" + phoneNo + '\'' +
                 ", emailId='" + emailId + '\'' +
                 '}';
+    }
+
+    public void addAccount(Account account) {
+        accountNo = account.getAccountId();
+    }
+
+    public void setAccountNo(int accountNo) {
+        this.accountNo = accountNo;
     }
 }
